@@ -3,707 +3,562 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Audit Chain Evidence Vault — Banking</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<title>Audit Evidence Vault — Banking</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;0,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
 :root{
-  --bg:#07090f;--s1:#0d1018;--s2:#131722;--s3:#1a2030;
-  --border:#1f2840;--border2:#2a3555;
-  --accent:#2dd4bf;--accent2:#f59e0b;--accent3:#818cf8;
-  --ok:#22c55e;--warn:#f59e0b;--err:#f43f5e;--info:#38bdf8;
-  --text:#e2e8f0;--muted:#64748b;--dimmed:#94a3b8;
-  --mono:'JetBrains Mono',monospace;--display:'Syne',sans-serif;
-  --r:4px;
+  --bg:#060810;--s1:#0b0f1c;--s2:#101523;--s3:#16203a;--s4:#1d2948;
+  --bd:#1e2b44;--bd2:#263650;
+  --teal:#00d4b8;--teal2:#00b09a;--gold:#f0a32e;--violet:#8b7ff5;--violet2:#6c60e0;
+  --ok:#15d66e;--warn:#f5a623;--err:#f43f5e;--info:#38bdf8;
+  --txt:#dde6f5;--dim:#6d86a8;--faint:#344d6e;
+  --mono:'DM Mono',monospace;--ui:'Plus Jakarta Sans',sans-serif;
+  --r:6px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--display);font-size:14px}
-::-webkit-scrollbar{width:4px;height:4px}
-::-webkit-scrollbar-track{background:var(--s1)}
-::-webkit-scrollbar-thumb{background:var(--border2)}
+html,body{height:100%;background:var(--bg);color:var(--txt);font-family:var(--ui);font-size:14px;line-height:1.5}
+::selection{background:#00d4b820}
+::-webkit-scrollbar{width:3px;height:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:3px}
 
-/* ════════════════════════════════════════ LOGIN */
-.login-screen{
-  display:flex;align-items:center;justify-content:center;min-height:100vh;
-  background:radial-gradient(ellipse 80% 60% at 50% 0%,#0a1628 0%,var(--bg) 70%);
+/* ─── LOGIN ──────────────────────────────────────────── */
+.login-wrap{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(ellipse 70% 50% at 25% 20%,#071f3e 0%,transparent 60%),
+             radial-gradient(ellipse 50% 40% at 80% 80%,#0a1830 0%,transparent 55%),var(--bg);
 }
-.login-card{
-  width:420px;padding:48px;
-  background:var(--s1);border:1px solid var(--border);
-  position:relative;overflow:hidden;
+.login-box{
+  width:440px;padding:50px 44px;background:var(--s1);
+  border:1px solid var(--bd);border-radius:var(--r);position:relative;overflow:hidden;
 }
-.login-card::before{
+.login-box::before{
   content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,var(--accent),var(--accent3),transparent);
+  background:linear-gradient(90deg,transparent,var(--teal) 40%,var(--violet) 70%,transparent);
 }
-.login-logo{display:flex;align-items:center;gap:14px;margin-bottom:40px}
-.logo-mark{
-  width:44px;height:44px;
-  background:linear-gradient(135deg,var(--accent),var(--accent3));
+.l-logo{display:flex;align-items:center;gap:14px;margin-bottom:42px}
+.l-hex{
+  width:46px;height:46px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--teal),var(--violet));
   clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
-  display:flex;align-items:center;justify-content:center;
-  font-size:20px;flex-shrink:0;
+  display:grid;place-items:center;font-size:20px;
 }
-.logo-text h1{font-size:16px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--accent)}
-.logo-text p{font-size:10px;color:var(--muted);letter-spacing:2px;margin-top:2px}
-.fld{margin-bottom:18px}
-.fld label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:2px;
-  text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-.fld input,.fld select{
-  width:100%;background:var(--bg);border:1px solid var(--border);
-  color:var(--text);padding:11px 14px;font-family:var(--mono);font-size:13px;
-  outline:none;border-radius:var(--r);transition:border-color .2s;
+.l-name{font-size:15px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--teal)}
+.l-sub{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:2px;margin-top:2px}
+.lf{margin-bottom:18px}
+.lf label{display:block;font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.lf input{
+  width:100%;background:var(--bg);border:1px solid var(--bd);color:var(--txt);
+  padding:11px 14px;font-family:var(--mono);font-size:13px;border-radius:var(--r);
+  outline:none;transition:border-color .2s,box-shadow .2s;
 }
-.fld input:focus,.fld select:focus{border-color:var(--accent)}
-.login-btn{
-  width:100%;padding:13px;margin-top:6px;
-  background:linear-gradient(135deg,var(--accent),#14b8a6);
-  color:#000;border:none;cursor:pointer;
-  font-family:var(--display);font-weight:800;font-size:12px;
-  letter-spacing:3px;text-transform:uppercase;border-radius:var(--r);
-  transition:opacity .2s;
+.lf input:focus{border-color:var(--teal);box-shadow:0 0 0 3px #00d4b814}
+.l-btn{
+  width:100%;padding:13px;margin-top:4px;border:none;cursor:pointer;border-radius:var(--r);
+  background:linear-gradient(135deg,var(--teal),var(--teal2));
+  color:#01201c;font-family:var(--ui);font-weight:800;font-size:12px;
+  letter-spacing:3px;text-transform:uppercase;transition:opacity .18s,transform .1s;
 }
-.login-btn:hover{opacity:.85}
-.creds-hint{
-  margin-top:22px;padding:14px;background:var(--s2);border:1px solid var(--border);
-  border-radius:var(--r);font-family:var(--mono);font-size:10px;line-height:2;color:var(--muted);
-}
-.creds-hint strong{color:var(--dimmed)}
-.err-msg{
+.l-btn:hover{opacity:.87}.l-btn:active{transform:scale(.98)}
+.l-err{
   background:#2d0a14;border:1px solid var(--err);color:var(--err);
-  padding:9px 13px;font-family:var(--mono);font-size:11px;
-  border-radius:var(--r);margin-bottom:14px;
+  padding:9px 12px;border-radius:var(--r);font-family:var(--mono);font-size:11px;margin-bottom:14px;
 }
+.l-creds{
+  margin-top:22px;background:var(--s2);border:1px solid var(--bd);border-radius:var(--r);
+  padding:14px 16px;font-family:var(--mono);font-size:10px;line-height:2.2;color:var(--dim);
+}
+.l-creds strong{color:var(--txt);font-weight:500}
 
-/* ════════════════════════════════════════ APP SHELL */
+/* ─── SHELL ───────────────────────────────────────────── */
 .app{display:grid;grid-template-rows:52px 1fr;height:100vh;overflow:hidden}
 .topbar{
-  background:var(--s1);border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 24px;position:relative;z-index:50;
+  background:var(--s1);border-bottom:1px solid var(--bd);
+  display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:50;flex-shrink:0;
 }
-.tb-left{display:flex;align-items:center;gap:14px}
-.tb-brand{font-family:var(--display);font-weight:800;font-size:13px;
-  letter-spacing:3px;text-transform:uppercase;color:var(--accent)}
-.tb-pulse{width:7px;height:7px;border-radius:50%;background:var(--ok);
-  box-shadow:0 0 8px var(--ok);animation:pulse-dot 2s ease-in-out infinite}
-@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.4}}
-.tb-right{display:flex;align-items:center;gap:12px}
-.role-chip{
-  padding:3px 10px;font-family:var(--mono);font-size:10px;letter-spacing:1px;
-  text-transform:uppercase;border-radius:20px;border:1px solid;
-}
-.chip-auditor{border-color:#2dd4bf50;color:var(--accent);background:#2dd4bf0d}
-.chip-bankuser{border-color:#22c55e50;color:var(--ok);background:#22c55e0d}
-.chip-admin{border-color:#f43f5e50;color:var(--err);background:#f43f5e0d}
-.username-tag{font-family:var(--mono);font-size:11px;color:var(--muted)}
-.signout-btn{
-  background:none;border:1px solid var(--border);color:var(--muted);
-  padding:5px 12px;cursor:pointer;font-family:var(--mono);font-size:10px;
-  letter-spacing:1px;border-radius:var(--r);transition:all .2s;
-}
-.signout-btn:hover{border-color:var(--err);color:var(--err)}
+.tb-brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--teal)}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok);animation:plse 2.4s ease-in-out infinite}
+@keyframes plse{0%,100%{opacity:1}50%{opacity:.3}}
+.tb-sub{font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:2px}
+.tb-r{display:flex;align-items:center;gap:12px}
+.role-tag{padding:3px 11px;border-radius:20px;border:1px solid;font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase}
+.rt-a{border-color:#00d4b840;color:var(--teal);background:#00d4b80c}
+.rt-b{border-color:#15d66e40;color:var(--ok);background:#15d66e0c}
+.rt-x{border-color:#f43f5e40;color:var(--err);background:#f43f5e0c}
+.tb-user{font-family:var(--mono);font-size:11px;color:var(--dim)}
+.sout{background:none;border:1px solid var(--bd);color:var(--dim);padding:5px 12px;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:1px;border-radius:var(--r);transition:all .18s}
+.sout:hover{border-color:var(--err);color:var(--err)}
 
-.body-grid{display:grid;grid-template-columns:220px 1fr;height:calc(100vh - 52px);overflow:hidden}
+.layout{display:grid;grid-template-columns:210px 1fr;height:calc(100vh - 52px);overflow:hidden}
 
-/* ════════════════════════════════════════ SIDEBAR */
-.sidebar{
-  background:var(--s1);border-right:1px solid var(--border);
-  display:flex;flex-direction:column;padding:16px 0;overflow-y:auto;
+/* ─── SIDEBAR ─────────────────────────────────────────── */
+.sidebar{background:var(--s1);border-right:1px solid var(--bd);display:flex;flex-direction:column;padding:16px 0;overflow-y:auto}
+.sb-lbl{font-family:var(--mono);font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--faint);padding:0 18px;margin:14px 0 5px;display:block}
+.sb-lbl:first-child{margin-top:0}
+.sb-lk{
+  display:flex;align-items:center;gap:11px;padding:9px 14px;cursor:pointer;
+  border-left:2px solid transparent;font-size:13px;font-weight:500;color:var(--dim);
+  transition:all .14s;margin:1px 8px;border-radius:0 var(--r) var(--r) 0;
 }
-.sb-section{padding:0 14px;margin-bottom:4px}
-.sb-label{
-  font-family:var(--mono);font-size:9px;letter-spacing:2.5px;
-  text-transform:uppercase;color:var(--muted);padding:0 8px;margin:14px 0 6px;display:block;
-}
-.sb-item{
-  display:flex;align-items:center;gap:10px;
-  padding:9px 12px;cursor:pointer;border-radius:var(--r);
-  transition:background .15s;border-left:2px solid transparent;
-  font-size:13px;font-weight:600;letter-spacing:.3px;color:var(--dimmed);
-  margin:1px 0;
-}
-.sb-item:hover{background:var(--s2);color:var(--text)}
-.sb-item.active{background:var(--s2);border-left-color:var(--accent);color:var(--accent)}
-.sb-item.active.ai-nav{border-left-color:var(--accent3);color:var(--accent3)}
-.sb-icon{width:18px;text-align:center;font-size:14px;flex-shrink:0}
-.app-picker-wrap{padding:0 14px;margin-top:auto;border-top:1px solid var(--border);padding-top:16px}
-.app-picker-wrap label{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px}
-.app-picker-wrap select{
-  width:100%;background:var(--bg);border:1px solid var(--border);
-  color:var(--text);padding:8px 10px;font-family:var(--mono);font-size:12px;
-  outline:none;border-radius:var(--r);transition:border-color .2s;
-}
-.app-picker-wrap select:focus{border-color:var(--accent)}
+.sb-lk:hover{background:var(--s2);color:var(--txt);border-left-color:var(--bd2)}
+.sb-lk.act{background:var(--s2);color:var(--teal);border-left-color:var(--teal);font-weight:600}
+.sb-lk.act.ai{color:var(--violet);border-left-color:var(--violet)}
+.sb-lk.act.gold{color:var(--gold);border-left-color:var(--gold)}
+.sb-ico{width:17px;text-align:center;font-size:14px;flex-shrink:0}
 
-/* ════════════════════════════════════════ CONTENT */
-.content{overflow-y:auto;padding:24px 28px;display:flex;flex-direction:column;gap:20px}
+.app-sel{margin-top:auto;padding:14px 12px 0;border-top:1px solid var(--bd)}
+.app-sel label{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);display:block;margin-bottom:5px;padding-left:4px}
+.app-sel select{width:100%;background:var(--bg);border:1px solid var(--bd);color:var(--txt);padding:8px 10px;font-family:var(--mono);font-size:12px;border-radius:var(--r);outline:none;transition:border-color .18s}
+.app-sel select:focus{border-color:var(--teal)}
 
-/* ════════════════════════════════════════ CARDS */
-.card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:22px}
-.card-title{
-  font-family:var(--mono);font-size:10px;letter-spacing:2.5px;text-transform:uppercase;
-  color:var(--accent);margin-bottom:16px;display:flex;align-items:center;gap:10px;
-}
-.card-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
-.card-title.ai{color:var(--accent3)}
-.card-title.ai::after{background:linear-gradient(90deg,#818cf840,transparent)}
+/* ─── CONTENT ─────────────────────────────────────────── */
+.content{overflow-y:auto;padding:22px 26px;display:flex;flex-direction:column;gap:16px}
 
-/* ════════════════════════════════════════ FORM ELEMENTS */
-.form-grid{display:grid;gap:14px}
-.form-row{display:grid;gap:12px;align-items:end}
-.form-2{grid-template-columns:1fr 1fr}
-.form-3{grid-template-columns:1fr 1fr auto}
+/* ─── CARD ────────────────────────────────────────────── */
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);overflow:hidden}
+.ch{padding:13px 18px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.ct{font-family:var(--mono);font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--teal);display:flex;align-items:center;gap:8px}
+.ct.vio{color:var(--violet)}.ct.gld{color:var(--gold)}
+.cb{padding:18px}
+
+/* ─── FORM ────────────────────────────────────────────── */
 .fg{display:flex;flex-direction:column;gap:5px}
-.fg label{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
-.fg input,.fg select,.fg textarea{
-  background:var(--bg);border:1px solid var(--border);color:var(--text);
-  padding:9px 12px;font-family:var(--mono);font-size:12px;
-  outline:none;border-radius:var(--r);transition:border-color .2s;width:100%;
-}
-.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--accent)}
+.fg label{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
+.fg input,.fg select,.fg textarea{background:var(--bg);border:1px solid var(--bd);color:var(--txt);padding:9px 12px;font-family:var(--mono);font-size:12px;border-radius:var(--r);outline:none;transition:border-color .18s,box-shadow .18s;width:100%}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--teal);box-shadow:0 0 0 2px #00d4b810}
 .fg textarea{resize:vertical}
-.btn{
-  padding:9px 20px;border:none;cursor:pointer;
-  font-family:var(--display);font-weight:700;font-size:11px;
-  letter-spacing:2px;text-transform:uppercase;border-radius:var(--r);
-  transition:opacity .2s;white-space:nowrap;
-}
-.btn:hover{opacity:.85}.btn:disabled{opacity:.4;cursor:not-allowed}
-.btn-primary{background:var(--accent);color:#000}
-.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted)}
-.btn-warn{background:transparent;border:1px solid var(--warn);color:var(--warn)}
-.btn-ai{background:linear-gradient(135deg,var(--accent3),#6366f1);color:#fff}
-.btn-sm{padding:4px 12px;font-size:10px;letter-spacing:1.5px}
+.gr{display:grid;gap:12px}
+.gr2{grid-template-columns:1fr 1fr}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border:none;cursor:pointer;border-radius:var(--r);font-family:var(--ui);font-weight:700;font-size:11px;letter-spacing:2px;text-transform:uppercase;transition:opacity .18s,transform .1s;white-space:nowrap}
+.btn:hover{opacity:.85}.btn:active{transform:scale(.97)}.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn-teal{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#01201c}
+.btn-warn{background:transparent;border:1px solid #f5a62360;color:var(--warn)}
+.btn-sm{padding:4px 11px;font-size:9px;letter-spacing:1.5px}
 
-/* ════════════════════════════════════════ COVERAGE DISPLAY */
-.coverage-row{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;margin-bottom:16px}
-.donut-wrap{position:relative;width:110px;height:110px;flex-shrink:0}
-.donut-wrap svg{transform:rotate(-90deg)}
-.donut-center{
-  position:absolute;inset:0;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;pointer-events:none;
-}
-.donut-pct{font-family:var(--display);font-size:24px;font-weight:800;color:var(--accent);line-height:1}
-.donut-label{font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:2px;letter-spacing:1px}
-.coverage-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.cst{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px}
-.cst-val{font-family:var(--display);font-size:22px;font-weight:800;margin-bottom:2px}
-.cst-lbl{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.5px}
-.c-ok{color:var(--ok)}.c-info{color:var(--info)}.c-warn{color:var(--warn)}.c-err{color:var(--err)}.c-acc{color:var(--accent)}
+/* ─── COVERAGE ────────────────────────────────────────── */
+.cov-layout{display:grid;grid-template-columns:128px 1fr;gap:24px;align-items:center}
+.dring{position:relative;width:128px;height:128px;flex-shrink:0}
+.dring svg{transform:rotate(-90deg)}
+.dring-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+.d-pct{font-family:var(--ui);font-size:28px;font-weight:800;line-height:1}
+.d-lbl{font-family:var(--mono);font-size:9px;color:var(--dim);margin-top:2px;letter-spacing:1px}
+.cov-tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{background:var(--s2);border:1px solid var(--bd);border-radius:var(--r);padding:14px 16px}
+.tile .v{font-family:var(--ui);font-size:26px;font-weight:800;line-height:1;margin-bottom:3px}
+.tile .l{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.5px}
+.c-ok{color:var(--ok)}.c-err{color:var(--err)}.c-warn{color:var(--warn)}.c-dim{color:var(--dim)}
 
-/* ════════════════════════════════════════ CHECKLIST TABLE */
-.tbl-wrap{overflow-x:auto}
+/* ─── TABLE ───────────────────────────────────────────── */
+.tw{overflow-x:auto}
 table{width:100%;border-collapse:collapse}
-th{
-  padding:8px 14px;text-align:left;font-family:var(--mono);font-size:9px;
-  letter-spacing:2px;text-transform:uppercase;color:var(--muted);
-  border-bottom:1px solid var(--border);background:var(--bg);
-}
-td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle;font-size:12px}
+th{padding:9px 16px;text-align:left;font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);border-bottom:1px solid var(--bd);background:var(--bg)}
+td{padding:12px 16px;border-bottom:1px solid var(--bd);vertical-align:middle;font-size:12px}
 tr:last-child td{border-bottom:none}
-tr:hover td{background:var(--s2)}
-.chip{
-  display:inline-flex;align-items:center;gap:4px;
-  padding:2px 9px;font-family:var(--mono);font-size:10px;
-  letter-spacing:.5px;border-radius:20px;border:1px solid;white-space:nowrap;
-}
-.chip-ok{border-color:#22c55e40;color:var(--ok);background:#22c55e0d}
-.chip-fetched{border-color:#2dd4bf40;color:var(--accent);background:#2dd4bf0d}
-.chip-doc{border-color:#f59e0b40;color:var(--warn);background:#f59e0b0d}
-.chip-miss{border-color:#f43f5e40;color:var(--err);background:#f43f5e0d}
-.chip-exc{border-color:#f59e0b50;color:var(--warn);background:#f59e0b0a}
-.chip-cat{border-color:var(--border);color:var(--dimmed);background:transparent}
-.icon-btn{
-  background:none;border:1px solid var(--border);color:var(--muted);
-  padding:3px 10px;cursor:pointer;font-family:var(--mono);font-size:10px;
-  border-radius:var(--r);transition:all .15s;
-}
-.icon-btn:hover{border-color:var(--accent);color:var(--accent)}
-.warn-btn{border-color:#f59e0b40;color:var(--warn)}
-.warn-btn:hover{background:#f59e0b10}
+tbody tr{transition:background .1s}
+tbody tr:hover td{background:var(--s2)}
+.chip{display:inline-flex;align-items:center;gap:3px;padding:3px 10px;border-radius:20px;border:1px solid;font-family:var(--mono);font-size:10px;white-space:nowrap}
+.chip-ok{border-color:#15d66e40;color:var(--ok);background:#15d66e0c}
+.chip-err{border-color:#f43f5e40;color:var(--err);background:#f43f5e0c}
+.chip-warn{border-color:#f5a62340;color:var(--warn);background:#f5a6230c}
+.chip-dim{border-color:var(--bd);color:var(--dim);background:transparent}
+.chip-exc{border-color:#f5a62340;color:var(--warn);background:#f5a6230a}
+.tbtn{background:none;border:1px solid var(--bd);color:var(--dim);padding:3px 10px;cursor:pointer;font-family:var(--mono);font-size:9px;letter-spacing:1px;border-radius:var(--r);transition:all .14s}
+.tbtn:hover{border-color:var(--teal);color:var(--teal)}
+.tbtn.w{border-color:#f5a62340;color:var(--warn)}.tbtn.w:hover{background:#f5a6230a}
 
-/* ════════════════════════════════════════ AGENT LOG */
-.agent-log{
-  background:var(--bg);border:1px solid var(--border);border-radius:var(--r);
-  padding:12px 14px;font-family:var(--mono);font-size:11px;
-  max-height:130px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;
-}
-.lg-info{color:var(--muted)}.lg-ok{color:var(--ok)}.lg-warn{color:var(--warn)}.lg-agent{color:var(--accent)}
-
-/* ════════════════════════════════════════ SPINNER */
-.spin-wrap{display:flex;flex-direction:column;align-items:center;gap:12px;padding:40px}
-.spinner{
-  width:32px;height:32px;border:2px solid var(--border);
-  border-top-color:var(--accent);border-radius:50%;
-  animation:spin .7s linear infinite;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-.spin-txt{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:1px}
-
-/* ════════════════════════════════════════ EMPTY STATE */
-.empty{
-  text-align:center;padding:50px 20px;
-  font-family:var(--mono);font-size:12px;color:var(--muted);line-height:2;
-}
-
-/* ════════════════════════════════════════ AI CHAT */
-.ai-wrap{display:flex;flex-direction:column;flex:1;min-height:0;gap:0}
-.ai-msgs{
+/* ─── CHATBOT ─────────────────────────────────────────── */
+.chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 52px - 44px);min-height:400px}
+.chat-hist{
   flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:14px;
-  padding:16px;background:var(--bg);border:1px solid var(--border);
-  border-radius:var(--r);min-height:320px;max-height:calc(100vh - 360px);
+  padding:18px;background:var(--bg);border:1px solid var(--bd);
+  border-radius:var(--r) var(--r) 0 0;min-height:0;
 }
-.msg-row{display:flex;flex-direction:column;max-width:82%}
-.msg-row.user{align-self:flex-end;align-items:flex-end}
-.msg-row.assistant{align-self:flex-start}
-.bubble{padding:10px 14px;font-size:13px;line-height:1.65;border-radius:var(--r)}
-.msg-row.user .bubble{background:var(--accent);color:#000;font-family:var(--display)}
-.msg-row.assistant .bubble{background:var(--s2);border:1px solid var(--border);color:var(--text)}
-.msg-ts{font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:4px}
-.typing-bub{display:flex;gap:5px;padding:10px 14px;background:var(--s2);border:1px solid var(--border);border-radius:var(--r);width:fit-content}
-.td{width:6px;height:6px;border-radius:50%;background:var(--accent3);animation:tdp 1.1s ease-in-out infinite}
-.td:nth-child(2){animation-delay:.18s}.td:nth-child(3){animation-delay:.36s}
-@keyframes tdp{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-4px)}}
-.ai-input-bar{display:flex;gap:10px;margin-top:12px}
-.ai-input-bar textarea{
-  flex:1;background:var(--bg);border:1px solid var(--border);color:var(--text);
-  padding:10px 13px;font-family:var(--display);font-size:13px;
-  outline:none;resize:none;height:50px;border-radius:var(--r);transition:border-color .2s;
-}
-.ai-input-bar textarea:focus{border-color:var(--accent3)}
+.mw{display:flex;flex-direction:column;max-width:82%}
+.mw.u{align-self:flex-end;align-items:flex-end}
+.mw.b{align-self:flex-start;align-items:flex-start}
+.mw.u .bbl{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#01201c;font-weight:500;border-radius:var(--r) var(--r) 0 var(--r)}
+.mw.b .bbl{background:var(--s2);border:1px solid var(--bd);color:var(--txt);border-radius:var(--r) var(--r) var(--r) 0}
+.bbl{padding:11px 15px;font-size:13px;line-height:1.65}
+.bbl p{margin-bottom:7px}.bbl p:last-child{margin-bottom:0}
+.bbl ul{margin:5px 0 5px 16px;display:flex;flex-direction:column;gap:2px}
+.bbl strong{font-weight:700}
+.bbl code{font-family:var(--mono);font-size:11px;background:#fff1;padding:1px 5px;border-radius:3px}
+.bot-tag{font-family:var(--mono);font-size:9px;color:var(--violet);letter-spacing:1px;margin-bottom:4px;display:flex;align-items:center;gap:4px}
+.mts{font-family:var(--mono);font-size:9px;color:var(--dim);margin-top:4px}
+.typing{align-self:flex-start}
+.typing-bbl{display:flex;gap:5px;padding:12px 15px;background:var(--s2);border:1px solid var(--bd);border-radius:var(--r);width:fit-content}
+.td{width:6px;height:6px;border-radius:50%;background:var(--violet);animation:tdp 1.2s ease-in-out infinite}
+.td:nth-child(2){animation-delay:.2s}.td:nth-child(3){animation-delay:.4s}
+@keyframes tdp{0%,100%{opacity:.2;transform:translateY(0)}50%{opacity:1;transform:translateY(-4px)}}
+.doc-bubble{background:var(--s3);border:1px solid var(--bd2);border-radius:var(--r);padding:10px 13px;margin-top:6px;display:flex;align-items:center;gap:10px;cursor:default}
+.doc-bubble-ico{font-size:20px;flex-shrink:0}
+.doc-bubble-name{font-size:12px;font-weight:600}
+.doc-bubble-meta{font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:1px}
+.doc-bubble-badge{margin-left:auto;padding:2px 9px;border-radius:20px;font-family:var(--mono);font-size:9px;border:1px solid var(--ok);color:var(--ok);background:#15d66e0c;white-space:nowrap;flex-shrink:0}
+.chat-bar{display:flex;background:var(--s2);border:1px solid var(--bd);border-top:none;border-radius:0 0 var(--r) var(--r);overflow:hidden}
+.chat-bar textarea{flex:1;background:transparent;border:none;color:var(--txt);padding:13px 15px;font-family:var(--ui);font-size:13px;outline:none;resize:none;height:50px;line-height:1.5}
+.chat-bar textarea::placeholder{color:var(--faint)}
+.csend{padding:0 22px;background:var(--violet);color:#fff;border:none;cursor:pointer;font-family:var(--ui);font-weight:700;font-size:11px;letter-spacing:2px;text-transform:uppercase;transition:opacity .18s;border-left:1px solid var(--bd)}
+.csend:hover{opacity:.86}.csend:disabled{opacity:.35;cursor:not-allowed}
 
-/* ════════════════════════════════════════ UPLOAD */
-.drop-zone{
-  border:2px dashed var(--border);border-radius:var(--r);
-  padding:32px;text-align:center;cursor:pointer;transition:all .2s;
-  background:var(--bg);
-}
-.drop-zone:hover,.drop-zone.over{border-color:var(--ok);background:#22c55e06}
-.drop-icon{font-size:36px;margin-bottom:8px}
-.drop-txt{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:6px}
-.drop-chosen{font-family:var(--mono);font-size:11px;color:var(--ok);margin-top:8px}
-.doc-card{
-  background:var(--s2);border:1px solid var(--border);border-radius:var(--r);
-  padding:11px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;
-}
-.doc-card:hover{border-color:var(--border2)}
-.doc-name{font-size:13px;font-weight:600;margin-bottom:3px}
-.doc-meta{font-family:var(--mono);font-size:10px;color:var(--muted)}
-.doc-stored{
-  padding:3px 10px;font-family:var(--mono);font-size:10px;letter-spacing:1px;
-  border:1px solid var(--ok);color:var(--ok);background:#22c55e0d;border-radius:20px;
-  white-space:nowrap;flex-shrink:0;
-}
+/* ─── UPLOAD ──────────────────────────────────────────── */
+.dz{border:2px dashed var(--bd);border-radius:var(--r);padding:30px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg)}
+.dz:hover,.dz.over{border-color:var(--ok);background:#15d66e08}
+.dz-ic{font-size:36px;margin-bottom:6px}
+.dz-tx{font-family:var(--mono);font-size:11px;color:var(--dim);margin-top:4px}
+.dz-ch{font-family:var(--mono);font-size:11px;color:var(--ok);margin-top:8px;font-weight:500}
+.dcrd{background:var(--s2);border:1px solid var(--bd);border-radius:var(--r);padding:11px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.dcrd:hover{border-color:var(--bd2)}
+.dn{font-size:13px;font-weight:600;margin-bottom:2px}
+.dm{font-family:var(--mono);font-size:10px;color:var(--dim)}
+.stored{padding:3px 10px;border-radius:20px;font-family:var(--mono);font-size:9px;letter-spacing:1px;border:1px solid var(--ok);color:var(--ok);background:#15d66e0c;white-space:nowrap;flex-shrink:0}
 
-/* ════════════════════════════════════════ EXCEPTIONS */
-.exc-card{
-  background:var(--s2);border:1px solid var(--border);border-radius:var(--r);
-  border-left:3px solid var(--warn);padding:14px 16px;margin-bottom:8px;
-}
-.exc-card.RAF{border-left-color:var(--err)}
-.exc-card.WAIVER{border-left-color:var(--info)}
-.exc-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
-.exc-id{font-family:var(--mono);font-size:11px;color:var(--warn)}
-.exc-meta-row{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--mono);font-size:10px;color:var(--muted)}
+/* ─── EXCEPTIONS ──────────────────────────────────────── */
+.exc-card{background:var(--s2);border:1px solid var(--bd);border-radius:var(--r);border-left:3px solid var(--warn);padding:13px 15px;margin-bottom:8px}
+.exc-card.RAF{border-left-color:var(--err)}.exc-card.WAIVER{border-left-color:var(--info)}
+.exc-hd{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:5px}
+.exc-id{font-family:var(--mono);font-size:11px;color:var(--warn);font-weight:500}
+.exc-mt{display:flex;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:10px;color:var(--dim)}
 
-/* ════════════════════════════════════════ MODAL */
-.overlay{
-  position:fixed;inset:0;background:#000000cc;z-index:200;
-  display:flex;align-items:center;justify-content:center;padding:20px;
-}
-.modal{
-  background:var(--s1);border:1px solid var(--border);border-radius:var(--r);
-  width:min(660px,100%);max-height:88vh;overflow-y:auto;
-  border-top:2px solid var(--accent);
-}
-.modal-hdr{
-  padding:15px 20px;border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;background:var(--s1);z-index:1;
-}
-.modal-ttl{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent)}
-.close-x{background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;padding:0 4px}
-.close-x:hover{color:var(--text)}
-.modal-body{padding:20px}
-.mv-row{display:flex;gap:10px;margin-bottom:9px;font-size:12px}
-.mv-key{font-family:var(--mono);color:var(--muted);width:150px;flex-shrink:0;font-size:11px}
-.mv-val{color:var(--text);word-break:break-all}
-.sec-hd{
-  font-family:var(--mono);font-size:9px;letter-spacing:2.5px;text-transform:uppercase;
-  color:var(--accent);margin:16px 0 10px;display:flex;align-items:center;gap:8px;
-}
-.sec-hd::after{content:'';flex:1;height:1px;background:var(--border)}
-.json-pre{
-  background:var(--bg);border:1px solid var(--border);border-radius:var(--r);
-  padding:13px;font-family:var(--mono);font-size:11px;color:#94a3b8;
-  overflow-x:auto;white-space:pre-wrap;line-height:1.6;
-}
+/* ─── MODAL ───────────────────────────────────────────── */
+.ov{position:fixed;inset:0;background:#000000cc;z-index:300;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);width:min(620px,100%);max-height:88vh;overflow-y:auto;border-top:2px solid var(--teal)}
+.modal.exc{border-top-color:var(--warn)}
+.mhd{padding:13px 18px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--s1);z-index:1}
+.mttl{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--teal);letter-spacing:1px}
+.mttl.w{color:var(--warn)}
+.mx{background:none;border:none;color:var(--dim);cursor:pointer;font-size:18px;padding:0 4px;transition:color .14s}
+.mx:hover{color:var(--txt)}
+.mbdy{padding:18px}
+.mr{display:flex;gap:10px;margin-bottom:8px;font-size:12px}
+.mk{font-family:var(--mono);color:var(--dim);width:145px;flex-shrink:0;font-size:11px}
+.mv{color:var(--txt);word-break:break-all}
+.ms{font-family:var(--mono);font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--teal);margin:14px 0 9px;display:flex;align-items:center;gap:8px}
+.ms::after{content:'';flex:1;height:1px;background:var(--bd)}
+
+/* ─── UTILS ───────────────────────────────────────────── */
+.empty{text-align:center;padding:46px 20px;font-family:var(--mono);font-size:12px;color:var(--dim);line-height:2.2}
 </style>
 </head>
 <body>
 <div id="root"></div>
 <script type="module">
-// ═══════════════════════════════════════════════════════════ CONSTANTS
+// ═══════════════════════════════════════════════════════ CONSTANTS & CONFIG
+
 const APPS = ["APP001","APP002","APP003"];
 
-const BANK_CHECKLIST = [
-  {id:"BK001",title:"CMDB Integration",           category:"Infrastructure",required:true},
-  {id:"BK002",title:"CyberArk Integration",       category:"Security",      required:true},
-  {id:"BK003",title:"Architecture Diagram",       category:"Documentation", required:true},
-  {id:"BK004",title:"Data Flow Diagram",          category:"Documentation", required:true},
-  {id:"BK005",title:"OS Baseline Sign-off",       category:"Compliance",    required:true},
-  {id:"BK006",title:"DB Sign-off",                category:"Compliance",    required:true},
-  {id:"BK007",title:"DAM Integration",            category:"Security",      required:true},
+const CHECKLIST = [
+  {id:"BK001", title:"CMDB Integration",      category:"Infrastructure"},
+  {id:"BK002", title:"CyberArk Integration",  category:"Security"},
+  {id:"BK003", title:"Architecture Diagram",  category:"Documentation"},
+  {id:"BK004", title:"Data Flow Diagram",     category:"Documentation"},
+  {id:"BK005", title:"OS Baseline Sign-off",  category:"Compliance"},
+  {id:"BK006", title:"DB Sign-off",           category:"Compliance"},
+  {id:"BK007", title:"DAM Integration",       category:"Security"},
 ];
 
-// Fixed Gemini config (in real deploy this lives server-side only)
-const GEMINI_KEY  = "YOUR_GEMINI_API_KEY_HERE";
-const GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta/openai";
-const GEMINI_MODEL= "gemini-2.5-flash";
+// ── Gemini config — key lives here only, never exposed in UI ──
+const GEMINI_KEY   = "YOUR_GEMINI_API_KEY_HERE";
+const GEMINI_BASE  = "https://generativelanguage.googleapis.com/v1beta/openai";
+const GEMINI_MODEL = "gemini-2.5-flash";
 
 const USERS = {
-  auditor1: {password:"audit@123", role:"auditor",  name:"Alice Auditor",  app_ids:APPS},
-  auditor2: {password:"audit@456", role:"auditor",  name:"David Auditor",  app_ids:APPS},
-  admin:    {password:"admin@123", role:"admin",    name:"Admin User",      app_ids:APPS},
-  bankuser1:{password:"bank@001",  role:"bankuser", name:"BankUser APP001", app_ids:["APP001"]},
-  bankuser2:{password:"bank@002",  role:"bankuser", name:"BankUser APP002", app_ids:["APP002"]},
-  bankuser3:{password:"bank@003",  role:"bankuser", name:"BankUser APP003", app_ids:["APP003"]},
+  auditor1: {pw:"audit@123", role:"auditor",  name:"Alice Auditor",  apps:APPS},
+  auditor2: {pw:"audit@456", role:"auditor",  name:"David Auditor",  apps:APPS},
+  admin:    {pw:"admin@123", role:"admin",    name:"Admin User",     apps:APPS},
+  bankuser1:{pw:"bank@001",  role:"bankuser", name:"BankUser APP001",apps:["APP001"]},
+  bankuser2:{pw:"bank@002",  role:"bankuser", name:"BankUser APP002",apps:["APP002"]},
+  bankuser3:{pw:"bank@003",  role:"bankuser", name:"BankUser APP003",apps:["APP003"]},
 };
 
-// Source connector data per checklist ID
-const SOURCE_DATA = {
-  BK001:{source:"ServiceNow CMDB",data:{cmdb_tool:"ServiceNow",assets_registered:134,ci_types:["Server","Database","Network"],last_sync:"2024-03-10",sync_status:"Healthy"}},
-  BK002:{source:"CyberArk PAM",data:{vault_accounts:31,pam_enabled:true,privileged_sessions_recorded:true,last_rotation:"2024-03-08",policy_compliance:"100%"}},
-  BK003:{source:"Confluence",data:{diagram_version:"v3.1",last_updated:"2024-02-20",approved_by:"Enterprise Architecture",format:"Visio/PDF"}},
-  BK004:{source:"DPO Office",data:{dfd_version:"v2.0",data_classifications:["PII","Confidential"],external_flows:3,encryption_in_transit:true,approved_by:"Data Protection Officer"}},
-  BK005:{source:"OS Hardening Team",data:{os_type:"RHEL 8.7",cis_benchmark:"Level 2",compliance_score:"94%",open_findings:3,signed_off_by:"CISO",sign_off_date:"2024-02-28"}},
-  BK006:{source:"DBA/Security Team",data:{db_type:"Oracle 19c",encryption_at_rest:true,auditing_enabled:true,privileged_access_reviewed:true,signed_off_by:"DB Security Lead",sign_off_date:"2024-03-01"}},
-  BK007:{source:"Imperva DAM",data:{dam_tool:"Imperva SecureSphere",monitoring_enabled:true,policies_active:12,alerts_last_30d:4,last_policy_review:"2024-02-15",integration_status:"Active"}},
+// ═══════════════════════════════════════════════════════ LOCAL DOCUMENT STORE
+// Structure: DOCS[appId][checklistId] = [{id,name,size,uploadedBy,role,uploadedAt,file}]
+const DOCS = {APP001:{},APP002:{},APP003:{}};
+
+const getDocsFor  = (app,cl) => DOCS[app]?.[cl] || [];
+const addDoc      = (app,cl,doc) => {
+  if(!DOCS[app]) DOCS[app]={};
+  if(!DOCS[app][cl]) DOCS[app][cl]=[];
+  DOCS[app][cl].push(doc);
+};
+const allDocsFlat = (app) => {
+  const res=[];
+  for(const [cl,docs] of Object.entries(DOCS[app]||{}))
+    docs.forEach(d=>res.push({...d,checklist_id:cl}));
+  return res;
 };
 
-// Pre-seeded vault per app
-const VAULT = {
-  "APP001_BK001":{title:"CMDB Integration",source:"ServiceNow CMDB",generated_by:"Vault",review_status:"Completed",evidence_data:{cmdb_tool:"ServiceNow",assets_registered:142,last_sync:"2024-03-01",sync_status:"Healthy"}},
-  "APP001_BK002":{title:"CyberArk Integration",source:"CyberArk PAM",generated_by:"Vault",review_status:"Completed",evidence_data:{vault_accounts:28,pam_enabled:true,policy_compliance:"100%"}},
-  "APP002_BK001":{title:"CMDB Integration",source:"ServiceNow CMDB",generated_by:"Vault",review_status:"Completed",evidence_data:{cmdb_tool:"ServiceNow",assets_registered:87,last_sync:"2024-02-28"}},
+// Coverage is 100% document-driven — no mock vault data
+function coverage(app){
+  let present=0;
+  const items=CHECKLIST.map(item=>{
+    const docs=getDocsFor(app,item.id);
+    const has=docs.length>0;
+    if(has) present++;
+    return{...item,docs,has};
+  });
+  const total=CHECKLIST.length;
+  const pct=Math.round(present/total*1000)/10;
+  return{total,present,missing:total-present,pct,gapPct:Math.round((total-present)/total*1000)/10,items};
+}
+
+// ═══════════════════════════════════════════════════════ STATE
+let S={
+  view:"login",user:null,appId:"APP001",nav:"audit",
+  modal:null,excModal:null,exceptions:{},
+  msgs:[],aiLoading:false,chatInput:"",
+  uploadApp:"APP001",uploadCL:"",uploadFile:null,
 };
+const set=p=>{Object.assign(S,p);render();};
 
-// Local doc store: { "APP001": [{id,name,checklist_id,uploaded_by,role,uploaded_at,size,file},...] }
-const DOCS = {APP001:[],APP002:[],APP003:[]};
-
-// ═══════════════════════════════════════════════════════════ STATE
-let S = {
-  view:"login", user:null,
-  appId:"APP001",
-  activeNav:"audit",
-  // audit
-  loading:false, results:null, logs:[],
-  modal:null, excModal:null,
-  exceptions:{},
-  // upload
-  uploadApp:"APP001", uploadCL:"", uploadFile:null,
-  // ai
-  aiMsgs:[], aiLoading:false, aiQuery:"",
-};
-const set = p => { S={...S,...p}; render(); };
-const delay = ms => new Promise(r=>setTimeout(r,ms));
-
-// ═══════════════════════════════════════════════════════════ AUTH
-function doLogin(u,p){
-  const usr=USERS[u]; if(!usr||usr.password!==p) return "Invalid credentials";
-  set({user:{username:u,role:usr.role,name:usr.name,app_ids:usr.app_ids},
-       view:"app", appId:usr.app_ids[0]||"APP001",
-       uploadApp:usr.app_ids[0]||"APP001"});
-  return null;
+// ═══════════════════════════════════════════════════════ AUTH
+function login(u,p){
+  const usr=USERS[u];
+  if(!usr||usr.pw!==p) return"Invalid credentials";
+  const app=usr.apps[0]||"APP001";
+  set({user:{username:u,role:usr.role,name:usr.name,apps:usr.apps},
+       view:"app",appId:app,uploadApp:app});
 }
 
-// ═══════════════════════════════════════════════════════════ AGENT PIPELINE
-async function runAudit(){
-  if(!S.appId) return;
-  set({loading:true,results:null,logs:[]});
-  const app=S.appId;
-  const logs=[]; const push=(msg,t="info")=>{logs.push({msg,t,ts:new Date().toLocaleTimeString()});set({logs:[...logs]});};
+// ═══════════════════════════════════════════════════════ AI CHAT
+async function sendChat(){
+  const q=S.chatInput.trim();
+  if(!q||S.aiLoading) return;
+  const msg={role:"user",content:q,ts:hhmm()};
+  set({msgs:[...S.msgs,msg],aiLoading:true,chatInput:""});
 
-  push(`[MasterAgent] Initiating audit for ${app}`,"agent");
-  await delay(280);
+  // Build rich context from local doc store
+  const cov=coverage(S.appId);
+  const itemCtx=cov.items.map(it=>{
+    if(it.docs.length===0) return `${it.id} (${it.title}): NO DOCUMENT — MISSING`;
+    return `${it.id} (${it.title}): ${it.docs.length} file(s) — ${it.docs.map(d=>d.name).join(", ")} [uploaded by ${[...new Set(it.docs.map(d=>d.uploadedBy))].join(", ")}]`;
+  }).join("\n");
 
-  const items=[];
-  for(const item of BANK_CHECKLIST){
-    const key=`${app}_${item.id}`; await delay(100);
-    const docCount=(DOCS[app]||[]).filter(d=>d.checklist_id===item.id).length;
+  const sys=`You are an expert audit assistant for a banking Audit Evidence Vault.
+Help auditors and bank users understand evidence status, coverage, and uploaded documents.
 
-    if(VAULT[key]){
-      push(`[MasterAgent] ${item.id} → ✓ found in vault`,"ok");
-      items.push({...item,status:"vault",  evidence:VAULT[key],docCount}); continue;
-    }
-    if(docCount>0){
-      push(`[MasterAgent] ${item.id} → 📎 document uploaded (${docCount} file${docCount>1?"s":""})`,"ok");
-      items.push({...item,status:"doc",evidence:null,docCount}); continue;
-    }
-    push(`[MasterAgent] ${item.id} → not in vault → calling SearchAgent`,"warn"); await delay(160);
-    const raw=SOURCE_DATA[item.id];
-    if(raw){
-      push(`[SearchAgent] ${item.id} → fetched from ${raw.source}`,"agent"); await delay(120);
-      push(`[EvidenceAgent] ${item.id} → generating evidence record`,"agent"); await delay(90);
-      const ev={title:item.title,source:raw.source,generated_at:new Date().toISOString(),
-        generated_by:"EvidenceAgent",auditor:S.user?.name,review_status:"Pending Review",
-        is_complete:true,evidence_data:raw.data};
-      VAULT[key]=ev;
-      items.push({...item,status:"fetched",evidence:ev,docCount});
-      push(`[EvidenceAgent] ${item.id} → pushed to vault ✓`,"ok");
-    } else {
-      push(`[SearchAgent] ${item.id} → no connector, item missing`,"warn");
-      items.push({...item,status:"missing",evidence:null,docCount});
-    }
-  }
+FIXED 7-ITEM BANK CHECKLIST:
+BK001 CMDB Integration | BK002 CyberArk Integration | BK003 Architecture Diagram
+BK004 Data Flow Diagram | BK005 OS Baseline Sign-off | BK006 DB Sign-off | BK007 DAM Integration
 
-  const total=items.length;
-  const complete=items.filter(i=>["vault","doc","fetched"].includes(i.status)).length;
-  const missing=total-complete;
-  push(`[MasterAgent] Complete — ${complete}/${total} items evidenced (${Math.round(complete/total*100)}%)`,"ok");
+CURRENT APP: ${S.appId}
+COVERAGE: ${cov.pct}% complete (${cov.present} of ${cov.total} items have uploaded documents, ${cov.missing} missing)
 
-  set({loading:false,results:{
-    app_id:app,auditor:S.user?.name,timestamp:new Date().toISOString(),
-    summary:{total,complete,missing,pct:Math.round(complete/total*1000)/10,gap:Math.round((missing/total)*1000)/10},
-    items,
-  }});
-}
+DOCUMENT STATUS (from local storage):
+${itemCtx}
 
-function raiseException(item,type,desc){
-  const key=`${S.appId}_${item.id}`;
-  const exc={
-    id:`EXC-${Math.random().toString(36).slice(2,8).toUpperCase()}`,
-    type,type_label:{RAF:"Risk Acceptance Form",PENDING:"Pending Exception",WAIVER:"Temporary Waiver",REMEDIATE:"Remediation Required"}[type],
-    checklist_id:item.id,checklist_title:item.title,
-    description:desc,raised_by:S.user.name,
-    raised_at:new Date().toISOString(),status:"OPEN",
-  };
-  const excs={...S.exceptions};
-  excs[key]=[...(excs[key]||[]),exc];
-  // Update item status in results
-  let results=S.results;
-  if(results){const items=results.items.map(r=>r.id===item.id?{...r,status:"exception"}:r);results={...results,items};}
-  set({exceptions:excs,excModal:null,results});
-}
-
-function doUpload(){
-  if(!S.uploadFile||!S.uploadCL) return;
-  const doc={id:`DOC_${Date.now()}`,name:S.uploadFile.name,
-    checklist_id:S.uploadCL,app_id:S.uploadApp,
-    uploaded_by:S.user.name,role:S.user.role,
-    uploaded_at:new Date().toISOString(),size:S.uploadFile.size,file:S.uploadFile};
-  DOCS[S.uploadApp]=[...(DOCS[S.uploadApp]||[]),doc];
-  set({uploadFile:null,uploadCL:""});
-  alert(`✓ "${doc.name}" stored locally under ${S.uploadApp} / ${doc.checklist_id}`);
-  render();
-}
-
-async function sendAI(){
-  const q=S.aiQuery.trim(); if(!q||S.aiLoading) return;
-  const userMsg={role:"user",content:q,ts:new Date().toLocaleTimeString()};
-  set({aiMsgs:[...S.aiMsgs,userMsg],aiLoading:true,aiQuery:""});
-
-  const docs=(DOCS[S.appId]||[]);
-  const vault_items=Object.entries(VAULT).filter(([k])=>k.startsWith(S.appId));
-  const ctx=[
-    `Application: ${S.appId}`,
-    `Bank checklist (7 items): ${BANK_CHECKLIST.map(i=>`${i.id}:${i.title}`).join(", ")}`,
-    vault_items.length?`Vault evidence:\n${vault_items.map(([k,v])=>`  ${k.split("_")[1]}: ${v.title} — ${JSON.stringify(v.evidence_data).slice(0,180)}`).join("\n")}`:"No vault evidence",
-    docs.length?`Uploaded documents:\n${docs.map(d=>`  [${d.checklist_id}] ${d.name} (by ${d.uploaded_by})`).join("\n")}`:"No uploaded documents",
-  ].join("\n\n");
-
-  const sysPrompt=`You are an expert audit assistant for a banking Audit Chain Evidence Vault. The bank uses a fixed 7-item checklist: BK001 CMDB Integration, BK002 CyberArk Integration, BK003 Architecture Diagram, BK004 Data Flow Diagram, BK005 OS Baseline Sign-off, BK006 DB Sign-off, BK007 DAM Integration. Help auditors understand evidence status, interpret documents, identify gaps, and provide compliance guidance. Be concise and reference checklist IDs when relevant.\n\nContext:\n${ctx}`;
+RULES:
+• Reference checklist IDs (BK001–BK007) in answers
+• When user asks to "show", "fetch", "retrieve" or "list" documents, name the exact files from the context above
+• When asked what is missing, list the BK IDs with "NO DOCUMENT"
+• When asked for coverage/completion, give exact numbers
+• Do NOT invent files or evidence not listed in the context
+• Keep responses concise and structured`;
 
   try{
     const r=await fetch(`${GEMINI_BASE}/chat/completions`,{
       method:"POST",
       headers:{"Content-Type":"application/json","Authorization":`Bearer ${GEMINI_KEY}`},
-      body:JSON.stringify({model:GEMINI_MODEL,max_tokens:1024,
-        messages:[{role:"system",content:sysPrompt},{role:"user",content:q}]})
+      body:JSON.stringify({model:GEMINI_MODEL,max_tokens:900,
+        messages:[{role:"system",content:sys},{role:"user",content:q}]})
     });
-    if(!r.ok) throw new Error(await r.text());
+    if(!r.ok) throw new Error(`API error ${r.status}: ${await r.text()}`);
     const data=await r.json();
     const ans=data.choices?.[0]?.message?.content||"No response.";
-    set({aiMsgs:[...S.aiMsgs,userMsg,{role:"assistant",content:ans,ts:new Date().toLocaleTimeString()}],aiLoading:false});
+
+    // Attach relevant doc cards if user asked to retrieve/show
+    let cards=[];
+    const isRetrieval=/show|fetch|retrieve|find|get|list|what.*doc|doc.*what/i.test(q);
+    if(isRetrieval){
+      for(const item of CHECKLIST){
+        const mentioned=q.toLowerCase().includes(item.id.toLowerCase())
+          || item.title.toLowerCase().split(" ").some(w=>w.length>4&&q.toLowerCase().includes(w.toLowerCase()));
+        if(mentioned) cards.push(...getDocsFor(S.appId,item.id).map(d=>({...d,clId:item.id,clTitle:item.title})));
+      }
+      // "all" / "list all" → return everything
+      if(cards.length===0 && /\ball\b|everything|every doc/i.test(q)){
+        cards=allDocsFlat(S.appId).map(d=>{
+          const it=CHECKLIST.find(c=>c.id===d.checklist_id)||{title:"—"};
+          return{...d,clId:d.checklist_id,clTitle:it.title};
+        });
+      }
+    }
+    set({msgs:[...S.msgs,msg,{role:"assistant",content:ans,cards,ts:hhmm()}],aiLoading:false});
   }catch(e){
-    set({aiMsgs:[...S.aiMsgs,userMsg,{role:"assistant",content:`⚠ ${e.message}`,ts:new Date().toLocaleTimeString()}],aiLoading:false});
+    set({msgs:[...S.msgs,msg,{role:"assistant",content:`⚠ ${e.message}\n\nCheck that GEMINI_KEY is set correctly in the HTML file.`,cards:[],ts:hhmm()}],aiLoading:false});
   }
 }
 
-// ═══════════════════════════════════════════════════════════ RENDER
-function render(){
-  document.getElementById("root").innerHTML = S.view==="login" ? html_login() : html_app();
-  bind();
-  const am=document.getElementById("ai-msgs"); if(am) am.scrollTop=am.scrollHeight;
+// ═══════════════════════════════════════════════════════ UPLOAD
+function doUpload(){
+  if(!S.uploadFile||!S.uploadCL) return;
+  const doc={id:`DOC_${Date.now()}`,name:S.uploadFile.name,size:S.uploadFile.size,
+    file:S.uploadFile,uploadedBy:S.user.name,role:S.user.role,
+    uploadedAt:new Date().toISOString()};
+  addDoc(S.uploadApp,S.uploadCL,doc);
+  set({uploadFile:null,uploadCL:""});
+  alert(`✓ "${doc.name}" stored in ${S.uploadApp} / ${S.uploadCL}`);
+  render();
 }
 
-// ── LOGIN ────────────────────────────────────────────────────────────────────
-function html_login(){return`
-<div class="login-screen">
-  <div class="login-card">
-    <div class="login-logo">
-      <div class="logo-mark">🔐</div>
-      <div class="logo-text"><h1>Evidence Vault</h1><p>BANKING AUDIT CHAIN SYSTEM</p></div>
-    </div>
-    <div id="lerr"></div>
-    <div class="fld"><label>Username</label><input id="lu" type="text" placeholder="auditor1" autocomplete="username"/></div>
-    <div class="fld"><label>Password</label><input id="lp" type="password" placeholder="••••••••" autocomplete="current-password"/></div>
-    <button class="login-btn" id="login-btn">ACCESS VAULT</button>
-    <div class="creds-hint">
-      <strong>Auditors:</strong> auditor1/audit@123 · auditor2/audit@456<br/>
-      <strong>Admin:</strong> admin/admin@123<br/>
-      <strong>BankUser APP001:</strong> bankuser1/bank@001<br/>
-      <strong>BankUser APP002:</strong> bankuser2/bank@002<br/>
-      <strong>BankUser APP003:</strong> bankuser3/bank@003
-    </div>
+// ═══════════════════════════════════════════════════════ EXCEPTIONS
+function raiseExc(item,type,desc){
+  const LABELS={RAF:"Risk Acceptance Form",PENDING:"Pending Exception",WAIVER:"Temporary Waiver",REMEDIATE:"Remediation Required"};
+  const key=`${S.appId}_${item.id}`;
+  const exc={id:`EXC-${Math.random().toString(36).slice(2,8).toUpperCase()}`,
+    type,type_label:LABELS[type],checklist_id:item.id,checklist_title:item.title,
+    description:desc,raised_by:S.user.name,raised_at:new Date().toISOString(),status:"OPEN"};
+  const excs={...S.exceptions};
+  excs[key]=[...(excs[key]||[]),exc];
+  set({exceptions:excs,excModal:null});
+}
+
+const hhmm=()=>new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
+
+// ═══════════════════════════════════════════════════════ RENDER
+function render(){
+  document.getElementById("root").innerHTML=S.view==="login"?r_login():r_app();
+  bind();
+  const ch=document.getElementById("chat-hist");
+  if(ch) ch.scrollTop=ch.scrollHeight;
+}
+
+// ── LOGIN ────────────────────────────────────────────────────────────────
+function r_login(){return`
+<div class="login-wrap"><div class="login-box">
+  <div class="l-logo"><div class="l-hex">🔐</div>
+    <div><div class="l-name">Evidence Vault</div><div class="l-sub">BANKING AUDIT CHAIN SYSTEM</div></div>
   </div>
-</div>`;}
+  <div id="lerr"></div>
+  <div class="lf"><label>Username</label><input id="lu" type="text" placeholder="auditor1" autocomplete="username"/></div>
+  <div class="lf"><label>Password</label><input id="lp" type="password" placeholder="••••••••" autocomplete="current-password"/></div>
+  <button class="l-btn" id="lbtn">ACCESS VAULT</button>
+  <div class="l-creds">
+    <strong>Auditors:</strong> auditor1 / audit@123 &nbsp;·&nbsp; auditor2 / audit@456<br/>
+    <strong>Admin:</strong> admin / admin@123<br/>
+    <strong>BankUser APP001:</strong> bankuser1 / bank@001<br/>
+    <strong>BankUser APP002:</strong> bankuser2 / bank@002<br/>
+    <strong>BankUser APP003:</strong> bankuser3 / bank@003
+  </div>
+</div></div>`;}
 
-// ── APP ──────────────────────────────────────────────────────────────────────
-function html_app(){
-  const isBankUser=S.user.role==="bankuser";
-  const chipCls={auditor:"chip-auditor",bankuser:"chip-bankuser",admin:"chip-admin"}[S.user.role]||"chip-auditor";
-  const navItems=[
-    {id:"audit",  icon:"⬡", label:"Audit Pipeline"},
-    {id:"ai",     icon:"✦", label:"AI Assistant",   ai:true},
-    isBankUser?{id:"upload",icon:"📤",label:"Upload Documents"}:null,
-    {id:"exceptions",icon:"⚠", label:"Exceptions / RAF"},
-    {id:"vault",  icon:"🗄", label:"Vault Browser"},
+// ── APP ──────────────────────────────────────────────────────────────────
+function r_app(){
+  const isBU=["bankuser","admin"].includes(S.user.role);
+  const rc={auditor:"rt-a",bankuser:"rt-b",admin:"rt-x"}[S.user.role]||"rt-a";
+  const nav=[
+    {id:"audit",ico:"◈",lbl:"Audit Pipeline"},
+    {id:"ai",   ico:"✦",lbl:"AI Assistant",  cls:"ai"},
+    isBU?{id:"upload",ico:"↑",lbl:"Upload Documents",cls:"gold"}:null,
+    {id:"exc",  ico:"△",lbl:"Exceptions / RAF"},
   ].filter(Boolean);
-
   return`
 <div class="app">
   <div class="topbar">
-    <div class="tb-left">
-      <span class="tb-brand">⬡ AUDIT CHAIN EVIDENCE VAULT</span>
-      <div class="tb-pulse"></div>
-      <span style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px">BANKING · 7-ITEM STANDARD</span>
+    <div class="tb-brand">⬡ AUDIT CHAIN EVIDENCE VAULT <div class="pulse"></div>
+      <span class="tb-sub">7-ITEM BANK STANDARD</span>
     </div>
-    <div class="tb-right">
-      <span class="username-tag">${S.user.name}</span>
-      <span class="role-chip ${chipCls}">${S.user.role}</span>
-      <button class="signout-btn" id="signout">SIGN OUT</button>
+    <div class="tb-r">
+      <span class="tb-user">${S.user.name}</span>
+      <span class="role-tag ${rc}">${S.user.role}</span>
+      <button class="sout" id="sout">SIGN OUT</button>
     </div>
   </div>
-  <div class="body-grid">
+  <div class="layout">
     <div class="sidebar">
-      <span class="sb-label">Navigation</span>
-      <div class="sb-section">
-        ${navItems.map(n=>`
-          <div class="sb-item ${S.activeNav===n.id?"active":""} ${n.ai?"ai-nav":""}" data-nav="${n.id}">
-            <span class="sb-icon">${n.icon}</span><span>${n.label}</span>
-          </div>`).join("")}
-      </div>
-      <div class="app-picker-wrap">
+      <span class="sb-lbl">Navigation</span>
+      ${nav.map(n=>`<div class="sb-lk ${S.nav===n.id?"act":""} ${n.cls||""}" data-nav="${n.id}">
+        <span class="sb-ico">${n.ico}</span><span>${n.lbl}</span>
+      </div>`).join("")}
+      <div class="app-sel">
         <label>Application</label>
-        <select id="sb-app">
-          ${(S.user.app_ids).map(a=>`<option value="${a}" ${a===S.appId?"selected":""}>${a}</option>`).join("")}
+        <select id="appsel">
+          ${S.user.apps.map(a=>`<option value="${a}" ${a===S.appId?"selected":""}>${a}</option>`).join("")}
         </select>
       </div>
     </div>
-    <div class="content" id="main-content">
-      ${S.activeNav==="audit"      ? html_audit()      : ""}
-      ${S.activeNav==="ai"         ? html_ai()         : ""}
-      ${S.activeNav==="upload"     ? html_upload()     : ""}
-      ${S.activeNav==="exceptions" ? html_exceptions() : ""}
-      ${S.activeNav==="vault"      ? html_vault()      : ""}
+    <div class="content" id="main">
+      ${S.nav==="audit"  ? r_audit()  : ""}
+      ${S.nav==="ai"     ? r_ai()     : ""}
+      ${S.nav==="upload" ? r_upload() : ""}
+      ${S.nav==="exc"    ? r_exc()    : ""}
     </div>
   </div>
 </div>
-${S.modal    ? html_modal()    : ""}
-${S.excModal ? html_exc_modal(): ""}`;
+${S.modal    ? r_modal()     : ""}
+${S.excModal ? r_exc_modal() : ""}`;
 }
 
-// ── AUDIT VIEW ───────────────────────────────────────────────────────────────
-function html_audit(){
+// ── AUDIT PIPELINE ───────────────────────────────────────────────────────
+function r_audit(){
+  const cov=coverage(S.appId);
+  const R=54, C=2*Math.PI*R;
+  const fill=C*(cov.pct/100);
+  const dc=cov.pct>=80?"var(--ok)":cov.pct>=50?"var(--warn)":"var(--err)";
   return`
+  <!-- Coverage Report -->
   <div class="card">
-    <div class="card-title">⬡ AUDIT PIPELINE — ${S.appId}</div>
-    <div class="form-row form-3" style="align-items:end;gap:12px">
-      <div class="fg"><label>Application</label>
-        <select id="audit-app">
-          ${(S.user.app_ids).map(a=>`<option value="${a}" ${a===S.appId?"selected":""}>${a}</option>`).join("")}
-        </select>
-      </div>
-      <div></div>
-      <button class="btn btn-primary" id="run-audit" ${S.loading?"disabled":""}>
-        ${S.loading?"SCANNING…":"RUN AUDIT"}
-      </button>
+    <div class="ch">
+      <span class="ct">◈ Coverage Report — ${S.appId}</span>
+      <span style="font-family:var(--mono);font-size:10px;color:var(--dim)">Source: local document storage</span>
     </div>
-  </div>
-
-  ${S.logs.length?`
-  <div>
-    <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Agent Activity Log</div>
-    <div class="agent-log">
-      ${S.logs.map(l=>`<span class="lg-${l.t}">${l.ts} ${l.msg}</span>`).join("")}
-    </div>
-  </div>`:""}
-
-  ${S.loading?`<div class="spin-wrap"><div class="spinner"></div><div class="spin-txt">RUNNING AGENT PIPELINE…</div></div>`:""}
-  ${S.results ? html_results() : (!S.loading?`<div class="empty">Select an application and click <strong>RUN AUDIT</strong><br/>to start the 3-agent evidence pipeline</div>`:"")}`;
-}
-
-function html_results(){
-  const {summary:s,items,app_id,auditor,timestamp}=S.results;
-  const r=55; const circ=2*Math.PI*r;
-  const filled=circ*(s.pct/100); const gap=circ-filled;
-
-  return`
-  <div class="card">
-    <div class="card-title">Coverage Report — ${app_id}</div>
-    <div class="coverage-row">
-      <div class="donut-wrap">
-        <svg width="110" height="110" viewBox="0 0 120 120">
-          <circle cx="60" cy="60" r="${r}" fill="none" stroke="var(--border)" stroke-width="10"/>
-          <circle cx="60" cy="60" r="${r}" fill="none" stroke="var(--accent)" stroke-width="10"
-            stroke-dasharray="${filled} ${gap}" stroke-linecap="round"
-            style="transition:stroke-dasharray .7s ease"/>
-        </svg>
-        <div class="donut-center">
-          <span class="donut-pct">${s.pct}%</span>
-          <span class="donut-label">COMPLETE</span>
+    <div class="cb">
+      <div class="cov-layout">
+        <div class="dring">
+          <svg width="128" height="128" viewBox="0 0 124 124">
+            <circle cx="62" cy="62" r="${R}" fill="none" stroke="var(--bd)" stroke-width="12"/>
+            <circle cx="62" cy="62" r="${R}" fill="none" stroke="${dc}" stroke-width="12"
+              stroke-dasharray="${fill} ${C-fill}" stroke-linecap="round"
+              style="transition:stroke-dasharray .9s ease,stroke .4s ease"/>
+          </svg>
+          <div class="dring-inner">
+            <span class="d-pct" style="color:${dc}">${cov.pct}%</span>
+            <span class="d-lbl">COMPLETE</span>
+          </div>
+        </div>
+        <div class="cov-tiles">
+          <div class="tile"><div class="v c-dim">${cov.total}</div><div class="l">Checklist Items</div></div>
+          <div class="tile"><div class="v c-ok">${cov.present}</div><div class="l">Documents Uploaded</div></div>
+          <div class="tile"><div class="v c-err">${cov.missing}</div><div class="l">Still Missing</div></div>
+          <div class="tile"><div class="v" style="color:${dc}">${cov.gapPct}%</div><div class="l">Gap</div></div>
         </div>
       </div>
-      <div class="coverage-stats">
-        <div class="cst"><div class="cst-val" style="color:var(--muted)">${s.total}</div><div class="cst-lbl">Total Items</div></div>
-        <div class="cst"><div class="cst-val c-ok">${s.complete}</div><div class="cst-lbl">Evidenced</div></div>
-        <div class="cst"><div class="cst-val c-err">${s.missing}</div><div class="cst-lbl">Missing</div></div>
-        <div class="cst"><div class="cst-val c-warn">${s.gap}%</div><div class="cst-lbl">Gap</div></div>
-      </div>
     </div>
-    <div style="margin-top:6px;font-family:var(--mono);font-size:10px;color:var(--muted)">Auditor: ${auditor} · ${timestamp.slice(0,19).replace("T"," ")} UTC</div>
   </div>
 
-  <div class="card" style="padding:0;overflow:hidden">
-    <div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
-      <span style="font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent)">Checklist Results</span>
-      <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">${items.length} items</span>
+  <!-- Checklist Table -->
+  <div class="card">
+    <div class="ch">
+      <span class="ct">Checklist — ${S.appId}</span>
+      <span style="font-family:var(--mono);font-size:10px;color:var(--dim)">${CHECKLIST.length} items · status from uploaded files</span>
     </div>
-    <div class="tbl-wrap">
+    <div class="tw">
       <table>
-        <thead><tr>
-          <th>ID</th><th>Title</th><th>Category</th><th>Status</th><th>Docs</th><th>Evidence</th><th>Actions</th>
-        </tr></thead>
-        <tbody>${items.map(item=>{
-          const stMap={
-            vault:  {cls:"chip-ok",  lbl:"✓ In Vault"},
-            doc:    {cls:"chip-doc", lbl:"📎 Document"},
-            fetched:{cls:"chip-fetched",lbl:"⬇ Fetched"},
-            missing:{cls:"chip-miss",lbl:"✗ Missing"},
-            exception:{cls:"chip-exc",lbl:"⚠ Exception"},
-          };
-          const st=stMap[item.status]||stMap.missing;
+        <thead><tr><th>ID</th><th>Item</th><th>Category</th><th>Uploaded Documents</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>${cov.items.map(item=>{
+          const excKey=`${S.appId}_${item.id}`;
+          const hasExc=(S.exceptions[excKey]||[]).length>0;
+          let stCls,stLbl;
+          if(hasExc){stCls="chip-exc";stLbl="⚠ Exception";}
+          else if(item.has){stCls="chip-ok";stLbl="✓ Present";}
+          else{stCls="chip-err";stLbl="✗ Missing";}
           return`<tr>
-            <td><span style="font-family:var(--mono);font-size:10px;color:var(--muted)">${item.id}</span></td>
+            <td><span style="font-family:var(--mono);font-size:10px;color:var(--dim)">${item.id}</span></td>
             <td style="font-weight:600">${item.title}</td>
-            <td><span class="chip chip-cat">${item.category}</span></td>
-            <td><span class="chip ${st.cls}">${st.lbl}</span></td>
-            <td><span style="font-family:var(--mono);font-size:10px;color:${item.docCount>0?"var(--ok)":"var(--muted)"}">${item.docCount>0?`📎 ${item.docCount}`:"—"}</span></td>
-            <td><span style="font-family:var(--mono);font-size:10px;color:var(--muted)">${item.evidence?item.evidence.source||item.evidence.generated_by||"—":"—"}</span></td>
+            <td><span class="chip chip-dim">${item.category}</span></td>
+            <td style="max-width:260px">
+              ${item.docs.length>0
+                ?item.docs.map(d=>`<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">
+                    <span>📄</span>
+                    <span style="font-family:var(--mono);font-size:10px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:180px">${d.name}</span>
+                    <span style="font-family:var(--mono);font-size:9px;color:var(--dim);flex-shrink:0">${(d.size/1024).toFixed(1)}KB</span>
+                  </div>`).join("")
+                :`<span style="font-family:var(--mono);font-size:10px;color:var(--faint)">No document</span>`}
+            </td>
+            <td><span class="chip ${stCls}">${stLbl}</span></td>
             <td style="display:flex;gap:5px;flex-wrap:wrap">
-              ${item.evidence?`<button class="icon-btn btn-sm" data-ev="${item.id}">VIEW</button>`:""}
-              ${["missing","exception"].includes(item.status)?`<button class="icon-btn warn-btn btn-sm" data-exc="${item.id}">RAF/EXC</button>`:""}
+              ${item.docs.length>0?`<button class="tbtn btn-sm" data-vd="${item.id}">VIEW</button>`:""}
+              ${!item.has&&!hasExc?`<button class="tbtn w btn-sm" data-re="${item.id}">RAF/EXC</button>`:""}
             </td>
           </tr>`;}).join("")}
         </tbody>
@@ -712,179 +567,178 @@ function html_results(){
   </div>`;
 }
 
-// ── AI VIEW ──────────────────────────────────────────────────────────────────
-function html_ai(){
-  const empty=S.aiMsgs.length===0;
+// ── AI CHATBOT ───────────────────────────────────────────────────────────
+function r_ai(){
+  const cov=coverage(S.appId);
+  const empty=S.msgs.length===0;
   return`
-  <div class="card ai-wrap" style="flex:1">
-    <div class="card-title ai">✦ AI AUDIT ASSISTANT — GEMINI 2.5 FLASH</div>
-    <div class="ai-msgs" id="ai-msgs">
-      ${empty?`<div class="empty">Ask anything about your audit evidence, documents, compliance gaps...<br/>
-        <span style="color:var(--accent3)">Try: "What is missing for ${S.appId}?" · "Summarise CMDB evidence" · "What is DAM integration?"</span>
+<div class="chat-wrap">
+  <div class="card" style="flex:1;display:flex;flex-direction:column;min-height:0;border-radius:var(--r) var(--r) 0 0">
+    <div class="ch" style="flex-shrink:0">
+      <span class="ct vio">✦ AI AUDIT ASSISTANT</span>
+      <span style="font-family:var(--mono);font-size:9px;color:var(--dim)">${S.appId} · ${cov.pct}% coverage · ${cov.present}/${cov.total} items</span>
+    </div>
+    <div class="chat-hist" id="chat-hist" style="border:none;border-radius:0">
+      ${empty?`<div class="empty">
+        ✦ Ask anything about audit documents and evidence<br/>
+        <span style="color:var(--violet);font-size:11px">
+          "What documents are uploaded for ${S.appId}?" &nbsp;·&nbsp;
+          "What is missing?" &nbsp;·&nbsp;
+          "Fetch the Architecture Diagram" &nbsp;·&nbsp;
+          "Show my coverage"
+        </span>
       </div>`:""}
-      ${S.aiMsgs.map(m=>`
-        <div class="msg-row ${m.role}">
-          <div class="bubble">${m.content.replace(/\n/g,"<br/>")}</div>
-          <div class="msg-ts">${m.role==="user"?S.user.name:"Gemini 2.5 Flash"} · ${m.ts}</div>
+      ${S.msgs.map(m=>`
+        <div class="mw ${m.role==="user"?"u":"b"}">
+          ${m.role==="assistant"?`<div class="bot-tag">✦ AI Assistant</div>`:""}
+          <div class="bbl">${fmt(m.content)}</div>
+          ${(m.cards||[]).length?`<div style="display:flex;flex-direction:column;gap:5px;margin-top:4px">
+            ${m.cards.map(d=>`<div class="doc-bubble">
+              <div class="doc-bubble-ico">📄</div>
+              <div>
+                <div class="doc-bubble-name">${d.name}</div>
+                <div class="doc-bubble-meta">${d.clId} · ${d.clTitle} · ${(d.size/1024).toFixed(1)} KB · ${d.uploadedBy}</div>
+              </div>
+              <div class="doc-bubble-badge">STORED</div>
+            </div>`).join("")}
+          </div>`:""}
+          <div class="mts">${m.role==="user"?S.user.name:"Gemini 2.5 Flash"} · ${m.ts}</div>
         </div>`).join("")}
-      ${S.aiLoading?`<div class="msg-row assistant"><div class="typing-bub"><div class="td"></div><div class="td"></div><div class="td"></div></div></div>`:""}
-    </div>
-    <div class="ai-input-bar">
-      <textarea id="ai-q" placeholder="Type your question… (Enter to send, Shift+Enter for newline)">${S.aiQuery}</textarea>
-      <button class="btn btn-ai" id="ai-send" ${S.aiLoading?"disabled":""}>SEND</button>
-    </div>
-  </div>`;
-}
-
-// ── UPLOAD VIEW ──────────────────────────────────────────────────────────────
-function html_upload(){
-  if(!["bankuser","admin"].includes(S.user.role))
-    return`<div class="empty">⚠ Only BankUsers and Admins can upload documents.</div>`;
-  const appDocs=(DOCS[S.uploadApp]||[]);
-  const clItems=BANK_CHECKLIST;
-  return`
-  <div class="card">
-    <div class="card-title">📤 UPLOAD EVIDENCE DOCUMENTS</div>
-    <div class="form-row form-2" style="margin-bottom:14px">
-      <div class="fg"><label>Application</label>
-        <select id="upl-app">
-          ${S.user.app_ids.map(a=>`<option value="${a}" ${a===S.uploadApp?"selected":""}>${a}</option>`).join("")}
-        </select>
-      </div>
-      <div class="fg"><label>Checklist Item</label>
-        <select id="upl-cl">
-          <option value="">— Select checklist item —</option>
-          ${clItems.map(c=>`<option value="${c.id}" ${c.id===S.uploadCL?"selected":""}>${c.id}: ${c.title}</option>`).join("")}
-        </select>
-      </div>
-    </div>
-    <div class="drop-zone" id="drop-zone">
-      <div class="drop-icon">📄</div>
-      <div class="drop-txt">Click or drag & drop to select file</div>
-      ${S.uploadFile?`<div class="drop-chosen">✓ ${S.uploadFile.name} (${(S.uploadFile.size/1024).toFixed(1)} KB)</div>`:""}
-      <input type="file" id="file-in" style="display:none"/>
-    </div>
-    <div style="margin-top:12px">
-      <button class="btn btn-primary" id="upl-btn" ${(!S.uploadFile||!S.uploadCL)?"disabled":""}>UPLOAD DOCUMENT</button>
+      ${S.aiLoading?`<div class="typing"><div class="typing-bbl"><div class="td"></div><div class="td"></div><div class="td"></div></div></div>`:""}
     </div>
   </div>
+  <div class="chat-bar">
+    <textarea id="chat-in" placeholder="Ask about documents, coverage, missing items… (Enter to send, Shift+Enter for newline)">${S.chatInput}</textarea>
+    <button class="csend" id="csend" ${S.aiLoading?"disabled":""}>SEND</button>
+  </div>
+</div>`;
+}
 
-  ${appDocs.length?`
-  <div class="card" style="padding:0;overflow:hidden">
-    <div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
-      <span style="font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ok)">Documents — ${S.uploadApp}</span>
-      <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">${appDocs.length} files</span>
-    </div>
-    <div style="padding:14px;display:flex;flex-direction:column;gap:8px">
-      ${appDocs.map(d=>`<div class="doc-card">
-        <div>
-          <div class="doc-name">📄 ${d.name}</div>
-          <div class="doc-meta">${d.checklist_id} · ${d.uploaded_by} · ${d.uploaded_at.slice(0,10)}</div>
+function fmt(t){
+  // Safe escape then markdown-lite
+  return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+    .replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>")
+    .replace(/`([^`]+)`/g,"<code>$1</code>")
+    .replace(/^[-•*] (.+)$/gm,"<li>$1</li>")
+    .replace(/(<li>[\s\S]*?<\/li>)/g,"<ul>$1</ul>")
+    .replace(/\n{2,}/g,"</p><p>")
+    .replace(/\n/g,"<br/>")
+    .replace(/^/,"<p>").replace(/$/,"</p>");
+}
+
+// ── UPLOAD ────────────────────────────────────────────────────────────────
+function r_upload(){
+  if(!["bankuser","admin"].includes(S.user.role))
+    return`<div class="empty">⚠ Only BankUsers and Admins can upload documents.</div>`;
+  const docs=allDocsFlat(S.uploadApp);
+  return`
+  <div class="card">
+    <div class="ch"><span class="ct gld">↑ UPLOAD EVIDENCE DOCUMENTS</span></div>
+    <div class="cb">
+      <div class="gr gr2" style="margin-bottom:14px">
+        <div class="fg"><label>Application</label>
+          <select id="uapp">${S.user.apps.map(a=>`<option value="${a}" ${a===S.uploadApp?"selected":""}>${a}</option>`).join("")}</select>
         </div>
-        <div class="doc-stored">STORED LOCALLY</div>
+        <div class="fg"><label>Checklist Item</label>
+          <select id="ucl">
+            <option value="">— Select —</option>
+            ${CHECKLIST.map(c=>`<option value="${c.id}" ${c.id===S.uploadCL?"selected":""}>${c.id}: ${c.title}</option>`).join("")}
+          </select>
+        </div>
+      </div>
+      <div class="dz" id="dz">
+        <div class="dz-ic">📄</div>
+        <div class="dz-tx">Click or drag & drop a file here</div>
+        ${S.uploadFile?`<div class="dz-ch">✓ ${S.uploadFile.name} · ${(S.uploadFile.size/1024).toFixed(1)} KB</div>`:""}
+        <input type="file" id="fin" style="display:none"/>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:10px;align-items:center">
+        <button class="btn btn-teal" id="ubtn" ${(!S.uploadFile||!S.uploadCL)?"disabled":""}>STORE DOCUMENT</button>
+        ${S.uploadFile&&S.uploadCL?`<span style="font-family:var(--mono);font-size:10px;color:var(--dim)">→ vault/docs/${S.uploadApp}/${S.uploadCL}/</span>`:""}
+      </div>
+    </div>
+  </div>
+  ${docs.length?`
+  <div class="card">
+    <div class="ch">
+      <span class="ct gld">Documents — ${S.uploadApp}</span>
+      <span style="font-family:var(--mono);font-size:10px;color:var(--dim)">${docs.length} file${docs.length!==1?"s":""}</span>
+    </div>
+    <div class="cb" style="display:flex;flex-direction:column;gap:8px">
+      ${docs.map(d=>`<div class="dcrd">
+        <div>
+          <div class="dn">📄 ${d.name}</div>
+          <div class="dm">${d.checklist_id} · ${d.uploadedBy} · ${d.uploadedAt.slice(0,10)}</div>
+        </div>
+        <div class="stored">STORED</div>
       </div>`).join("")}
     </div>
   </div>`:`<div class="empty">No documents uploaded for ${S.uploadApp} yet</div>`}`;
 }
 
-// ── EXCEPTIONS ───────────────────────────────────────────────────────────────
-function html_exceptions(){
+// ── EXCEPTIONS ────────────────────────────────────────────────────────────
+function r_exc(){
   const all=Object.values(S.exceptions).flat();
   return`
   <div class="card">
-    <div class="card-title">⚠ EXCEPTIONS & RISK ACCEPTANCE FORMS</div>
-    ${all.length===0
-      ?`<div class="empty">No exceptions raised yet.<br/>Use the RAF/EXC button on missing checklist items in the Audit Pipeline.</div>`
-      :all.map(e=>`<div class="exc-card ${e.type}">
-          <div class="exc-header">
-            <div><span class="exc-id">${e.id}</span><span style="margin-left:10px;font-weight:600">${e.checklist_title}</span></div>
-            <span class="chip ${e.type==="RAF"?"chip-miss":e.type==="WAIVER"?"chip-fetched":"chip-exc"}">${e.type_label}</span>
-          </div>
-          <div class="exc-meta-row">
-            <span>${e.checklist_id}</span>
-            <span>Raised ${e.raised_at.slice(0,10)}</span>
-            <span>By ${e.raised_by}</span>
-            <span>${e.status}</span>
-          </div>
-          <div style="margin-top:8px;font-size:12px;color:var(--dimmed)">${e.description}</div>
-        </div>`).join("")}
+    <div class="ch"><span class="ct">△ EXCEPTIONS & RISK ACCEPTANCE FORMS</span></div>
+    <div class="cb">
+      ${all.length===0
+        ?`<div class="empty">No exceptions raised yet.<br/>Use the RAF/EXC button on missing checklist items in the Audit Pipeline.</div>`
+        :all.map(e=>`<div class="exc-card ${e.type}">
+            <div class="exc-hd">
+              <div><span class="exc-id">${e.id}</span><span style="margin-left:10px;font-weight:600">${e.checklist_title}</span></div>
+              <span class="chip ${e.type==="RAF"?"chip-err":e.type==="WAIVER"?"chip-warn":"chip-exc"}">${e.type_label}</span>
+            </div>
+            <div class="exc-mt">
+              <span>${e.checklist_id}</span><span>Raised ${e.raised_at.slice(0,10)}</span>
+              <span>By ${e.raised_by}</span><span>${e.status}</span>
+            </div>
+            <div style="margin-top:8px;font-size:12px;color:var(--dim)">${e.description}</div>
+          </div>`).join("")}
+    </div>
   </div>`;
 }
 
-// ── VAULT BROWSER ────────────────────────────────────────────────────────────
-function html_vault(){
-  const entries=Object.entries(VAULT);
-  const allDocs=Object.entries(DOCS).flatMap(([app,docs])=>docs.map(d=>({...d,app_id:app})));
-  return`
-  <div class="card" style="padding:0;overflow:hidden">
-    <div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
-      <span style="font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent)">🗄 Vault Evidence Store</span>
-      <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">${entries.length} records</span>
-    </div>
-    <div class="tbl-wrap"><table>
-      <thead><tr><th>App</th><th>Checklist</th><th>Title</th><th>Source</th><th>Status</th><th>Action</th></tr></thead>
-      <tbody>${entries.map(([key,ev])=>{const[a,cl]=key.split("_");return`<tr>
-        <td><span style="font-family:var(--mono);font-size:10px">${a}</span></td>
-        <td><span style="font-family:var(--mono);font-size:10px;color:var(--accent)">${cl}</span></td>
-        <td style="font-weight:600">${ev.title||"—"}</td>
-        <td style="font-family:var(--mono);font-size:10px;color:var(--muted)">${ev.source||"—"}</td>
-        <td><span class="chip chip-ok">✓ Stored</span></td>
-        <td><button class="icon-btn btn-sm" data-vault="${key}">VIEW</button></td>
-      </tr>`;}).join("")}
-      </tbody>
-    </table></div>
-  </div>
-  ${allDocs.length?`
-  <div class="card" style="padding:0;overflow:hidden">
-    <div style="padding:14px 18px;border-bottom:1px solid var(--border)">
-      <span style="font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ok)">📁 Uploaded Documents</span>
-    </div>
-    <div style="padding:14px;display:flex;flex-direction:column;gap:8px">
-      ${allDocs.map(d=>`<div class="doc-card">
-        <div>
-          <div class="doc-name">📄 ${d.name}</div>
-          <div class="doc-meta">${d.app_id} / ${d.checklist_id} · by ${d.uploaded_by} · ${d.uploaded_at.slice(0,10)}</div>
-        </div>
-        <div class="doc-stored">LOCAL</div>
-      </div>`).join("")}
-    </div>
-  </div>`:""}`;
-}
-
-// ── MODALS ───────────────────────────────────────────────────────────────────
-function html_modal(){
-  const ev=S.modal;
-  return`<div class="overlay" id="ov">
+// ── MODALS ────────────────────────────────────────────────────────────────
+function r_modal(){
+  const {docs,item}=S.modal;
+  return`<div class="ov" id="ov">
     <div class="modal">
-      <div class="modal-hdr">
-        <span class="modal-ttl">📄 EVIDENCE — ${ev._cid}</span>
-        <button class="close-x" id="close-ev">✕</button>
+      <div class="mhd">
+        <span class="mttl">📂 ${item.id}: ${item.title}</span>
+        <button class="mx" id="cmv">✕</button>
       </div>
-      <div class="modal-body">
-        <div class="sec-hd">Metadata</div>
-        ${[["Title",ev.title||ev.checklist_title||"—"],["Source",ev.source||"—"],
-           ["Review Status",ev.review_status||"Available"],["Generated By",ev.generated_by||"Vault"],
-           ["Auditor",ev.auditor||"—"],["Generated At",ev.generated_at||"—"]
-          ].map(([k,v])=>`<div class="mv-row"><div class="mv-key">${k}</div><div class="mv-val">${v}</div></div>`).join("")}
-        <div class="sec-hd">Evidence Data</div>
-        <pre class="json-pre">${JSON.stringify(ev.evidence_data||ev,null,2)}</pre>
+      <div class="mbdy">
+        <div class="ms">Stored Documents (${docs.length})</div>
+        ${docs.length===0
+          ?`<div class="empty" style="padding:20px">No documents uploaded for this item.</div>`
+          :docs.map(d=>`
+          <div style="background:var(--s2);border:1px solid var(--bd);border-radius:var(--r);padding:13px 15px;margin-bottom:10px">
+            <div class="mr"><div class="mk">File Name</div><div class="mv">${d.name}</div></div>
+            <div class="mr"><div class="mk">Checklist Item</div><div class="mv">${item.id} — ${item.title}</div></div>
+            <div class="mr"><div class="mk">Uploaded By</div><div class="mv">${d.uploadedBy} (${d.role})</div></div>
+            <div class="mr"><div class="mk">Uploaded At</div><div class="mv">${d.uploadedAt.slice(0,19).replace("T"," ")} UTC</div></div>
+            <div class="mr"><div class="mk">File Size</div><div class="mv">${(d.size/1024).toFixed(2)} KB</div></div>
+            <div class="mr"><div class="mk">Local Path</div><div class="mv" style="color:var(--dim)">vault/docs/${S.appId}/${item.id}/${d.id}</div></div>
+          </div>`).join("")}
       </div>
     </div>
   </div>`;
 }
 
-function html_exc_modal(){
+function r_exc_modal(){
   const item=S.excModal;
-  return`<div class="overlay" id="exc-ov">
-    <div class="modal" style="border-top-color:var(--warn)">
-      <div class="modal-hdr">
-        <span class="modal-ttl" style="color:var(--warn)">⚠ RAISE EXCEPTION — ${item.id}</span>
-        <button class="close-x" id="close-exc">✕</button>
+  return`<div class="ov" id="exov">
+    <div class="modal exc">
+      <div class="mhd">
+        <span class="mttl w">△ RAISE EXCEPTION — ${item.id}</span>
+        <button class="mx" id="cme">✕</button>
       </div>
-      <div class="modal-body">
-        <p style="font-size:12px;color:var(--muted);margin-bottom:18px">${item.title}</p>
-        <div class="fg" style="margin-bottom:14px"><label>Exception Type</label>
-          <select id="exc-type">
+      <div class="mbdy">
+        <p style="font-size:12px;color:var(--dim);margin-bottom:16px;font-weight:500">${item.title}</p>
+        <div class="fg" style="margin-bottom:13px"><label>Exception Type</label>
+          <select id="etype">
             <option value="RAF">Risk Acceptance Form (RAF)</option>
             <option value="PENDING">Pending Exception</option>
             <option value="WAIVER">Temporary Waiver</option>
@@ -892,94 +746,91 @@ function html_exc_modal(){
           </select>
         </div>
         <div class="fg" style="margin-bottom:16px"><label>Description / Justification</label>
-          <textarea id="exc-desc" rows="4" placeholder="Describe the exception reason and compensating controls…"></textarea>
+          <textarea id="edesc" rows="4" placeholder="Describe reason and compensating controls…"></textarea>
         </div>
-        <button class="btn btn-warn" id="submit-exc">RAISE EXCEPTION</button>
+        <button class="btn btn-warn" id="sexc">RAISE EXCEPTION</button>
       </div>
     </div>
   </div>`;
 }
 
-// ═══════════════════════════════════════════════════════════ EVENTS
+// ═══════════════════════════════════════════════════════ EVENT BINDING
 function bind(){
   // Login
-  const lb=document.getElementById("login-btn");
+  const lb=document.getElementById("lbtn");
   if(lb){
     const go=()=>{
       const u=document.getElementById("lu").value.trim();
       const p=document.getElementById("lp").value;
-      const err=doLogin(u,p);
-      if(err) document.getElementById("lerr").innerHTML=`<div class="err-msg">${err}</div>`;
+      const e=login(u,p);
+      if(e) document.getElementById("lerr").innerHTML=`<div class="l-err">${e}</div>`;
     };
     lb.onclick=go;
     document.getElementById("lp")?.addEventListener("keydown",e=>{if(e.key==="Enter")go();});
   }
 
   // Sign out
-  document.getElementById("signout")?.addEventListener("click",()=>
-    set({view:"login",user:null,results:null,logs:[],aiMsgs:[],exceptions:{}}));
+  document.getElementById("sout")?.addEventListener("click",()=>
+    set({view:"login",user:null,msgs:[],exceptions:{},uploadFile:null}));
 
-  // Sidebar nav
+  // Nav links
   document.querySelectorAll("[data-nav]").forEach(el=>
-    el.addEventListener("click",()=>set({activeNav:el.dataset.nav})));
+    el.addEventListener("click",()=>set({nav:el.dataset.nav})));
 
-  // Sidebar + audit app picker
-  document.getElementById("sb-app")?.addEventListener("change",e=>set({appId:e.target.value}));
-  document.getElementById("audit-app")?.addEventListener("change",e=>set({appId:e.target.value}));
+  // App selector (sidebar — updates global appId)
+  document.getElementById("appsel")?.addEventListener("change",e=>set({appId:e.target.value}));
 
-  // Run audit
-  document.getElementById("run-audit")?.addEventListener("click",runAudit);
-
-  // View evidence buttons (audit table)
-  document.querySelectorAll("[data-ev]").forEach(btn=>btn.addEventListener("click",()=>{
-    const item=S.results?.items.find(i=>i.id===btn.dataset.ev);
-    if(item?.evidence) set({modal:{...item.evidence,_cid:item.id}});
-  }));
-  // View vault
-  document.querySelectorAll("[data-vault]").forEach(btn=>btn.addEventListener("click",()=>{
-    const ev=VAULT[btn.dataset.vault]; const[,cl]=btn.dataset.vault.split("_");
-    if(ev) set({modal:{...ev,_cid:cl}});
+  // Checklist VIEW buttons
+  document.querySelectorAll("[data-vd]").forEach(btn=>btn.addEventListener("click",()=>{
+    const id=btn.dataset.vd;
+    const item=CHECKLIST.find(c=>c.id===id);
+    const docs=getDocsFor(S.appId,id);
+    set({modal:{docs,item}});
   }));
 
-  // Exception buttons
-  document.querySelectorAll("[data-exc]").forEach(btn=>btn.addEventListener("click",()=>{
-    const item=S.results?.items.find(i=>i.id===btn.dataset.exc);
+  // RAF/EXC buttons
+  document.querySelectorAll("[data-re]").forEach(btn=>btn.addEventListener("click",()=>{
+    const item=CHECKLIST.find(c=>c.id===btn.dataset.re);
     if(item) set({excModal:item});
   }));
 
-  // Close modals
-  document.getElementById("close-ev")?.addEventListener("click",()=>set({modal:null}));
-  document.getElementById("close-exc")?.addEventListener("click",()=>set({excModal:null}));
+  // Modal close
+  document.getElementById("cmv")?.addEventListener("click",()=>set({modal:null}));
+  document.getElementById("cme")?.addEventListener("click",()=>set({excModal:null}));
   document.getElementById("ov")?.addEventListener("click",e=>{if(e.target.id==="ov")set({modal:null});});
-  document.getElementById("exc-ov")?.addEventListener("click",e=>{if(e.target.id==="exc-ov")set({excModal:null});});
-  document.getElementById("submit-exc")?.addEventListener("click",()=>{
-    const type=document.getElementById("exc-type").value;
-    const desc=document.getElementById("exc-desc").value.trim();
+  document.getElementById("exov")?.addEventListener("click",e=>{if(e.target.id==="exov")set({excModal:null});});
+
+  // Submit exception
+  document.getElementById("sexc")?.addEventListener("click",()=>{
+    const type=document.getElementById("etype").value;
+    const desc=document.getElementById("edesc").value.trim();
     if(!desc){alert("Please enter a description.");return;}
-    raiseException(S.excModal,type,desc);
+    raiseExc(S.excModal,type,desc);
   });
 
-  // AI
-  document.getElementById("ai-q")?.addEventListener("input",e=>{S.aiQuery=e.target.value;});
-  document.getElementById("ai-q")?.addEventListener("keydown",e=>{
-    if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendAI();}
+  // AI chat
+  document.getElementById("chat-in")?.addEventListener("input",e=>{S.chatInput=e.target.value;});
+  document.getElementById("chat-in")?.addEventListener("keydown",e=>{
+    if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendChat();}
   });
-  document.getElementById("ai-send")?.addEventListener("click",sendAI);
+  document.getElementById("csend")?.addEventListener("click",sendChat);
 
-  // Upload
-  document.getElementById("upl-app")?.addEventListener("change",e=>set({uploadApp:e.target.value,uploadCL:"",uploadFile:null}));
-  document.getElementById("upl-cl")?.addEventListener("change",e=>{S.uploadCL=e.target.value;render();});
-  const dz=document.getElementById("drop-zone");
-  const fi=document.getElementById("file-in");
+  // Upload app / checklist selectors
+  document.getElementById("uapp")?.addEventListener("change",e=>set({uploadApp:e.target.value,uploadCL:"",uploadFile:null}));
+  document.getElementById("ucl")?.addEventListener("change",e=>{S.uploadCL=e.target.value;render();});
+
+  // Drop zone
+  const dz=document.getElementById("dz");
+  const fi=document.getElementById("fin");
   dz?.addEventListener("click",()=>fi?.click());
   fi?.addEventListener("change",e=>{if(e.target.files[0])set({uploadFile:e.target.files[0]});});
   dz?.addEventListener("dragover",e=>{e.preventDefault();dz.classList.add("over");});
   dz?.addEventListener("dragleave",()=>dz.classList.remove("over"));
   dz?.addEventListener("drop",e=>{e.preventDefault();dz.classList.remove("over");if(e.dataTransfer.files[0])set({uploadFile:e.dataTransfer.files[0]});});
-  document.getElementById("upl-btn")?.addEventListener("click",doUpload);
+  document.getElementById("ubtn")?.addEventListener("click",doUpload);
 }
 
-// ═══════════════════════════════════════════════════════════ BOOT
+// ═══════════════════════════════════════════════════════ BOOT
 render();
 </script>
 </body>
